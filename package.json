@@ -1,0 +1,47 @@
+{
+  "name": "simple-nodejs-mcp-client",
+  "version": "0.1.0",
+  "description": "A simple CLI tool to interact with the Model Context Protocol (MCP) and Claude AI.",
+  "type": "module",
+  "main": "dist/main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sawa-zen/simple-nodejs-mcp-client.git"
+  },
+  "homepage": "https://github.com/sawa-zen/simple-nodejs-mcp-client#readme",
+  "bugs": {
+    "url": "https://github.com/sawa-zen/simple-nodejs-mcp-client/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "api",
+    "cli",
+    "nodejs",
+    "claude"
+  ],
+  "author": "sawa-zen",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x dist/main.js",
+    "start": "node dist/main.js",
+    "dev": "tsc -w",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "dotenv": "^16.0.3",
+    "eventemitter3": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/node": "^18.15.11",
+    "eslint": "^9.22.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
+  }
+}

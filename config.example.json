@@ -1,0 +1,13 @@
+{
+  "claudeApiKey": "your-api-key",
+  "systemPrompt": "You are a helpful assistant. Please keep your response under 50 characters.",
+  "mcpServers": {
+    "sample-mcp": {
+      "command": "npx",
+      "args": ["sample-mcp"],
+      "env": {
+        "API_KEY": "your-api-key"
+      }
+    }
+  }
+}
