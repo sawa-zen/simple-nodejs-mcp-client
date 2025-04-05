@@ -1,4 +1,4 @@
-# simple-nodejs-mcp-client
+# Simple Nodejs MCP Client
 
 This is a study repository for implementing a Model Context Protocol (MCP) client. It features a simple interactive MCP client implemented in Node.js.
 
