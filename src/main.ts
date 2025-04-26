@@ -6,13 +6,12 @@ import { AnthropicClient } from './AnthropicClient.js'
 // Load configuration file
 const config: Config = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
 
-
 // Start anthropic client
-const anthropicClient = new AnthropicClient({ apiKey: config.claudeApiKey })
+const anthropicClient = new AnthropicClient({ apiKey: config.claudeApiKey, mcpServerConfigs: config.mcpServers })
+await anthropicClient.setUp()
 anthropicClient.on('recive_assistant_message', ({ message }) => { console.log(`Claude: ${message}`) })
+anthropicClient.on('tool_use', ({ input }) => { console.log(`Tool use: ${JSON.stringify(input)}`) })
 anthropicClient.on('end_turn', () => { promptUser() })
-await anthropicClient.setupTools(config.mcpServers || {})
-
 
 // Start interactive interface
 const rl = readline.createInterface({
@@ -26,7 +25,6 @@ function promptUser() {
   })
 }
 
-
 // Cleanup process
 const cleanup = async () => {
   rl.close()
@@ -36,7 +34,6 @@ const cleanup = async () => {
 }
 process.on('SIGINT', async() => { await cleanup() })
 process.on('SIGTERM', async() => { await cleanup() })
-
 
 // Start chat
 promptUser()

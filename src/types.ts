@@ -5,17 +5,17 @@ export interface ChatMessage {
   content: string
 }
 
-export interface MCPServer {
+export interface MCPServerConfig {
   command: string
   args: string[]
   env: Record<string, string>
 }
 
-export type MCPServers = Record<string, MCPServer>
+export type MCPServerConfigs = Record<string, MCPServerConfig>
 
 export interface Config {
   claudeApiKey: string
-  mcpServers: MCPServers
+  mcpServers: MCPServerConfigs
 }
 
 export type Transports = Record<string, StdioClientTransport>

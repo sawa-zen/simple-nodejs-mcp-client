@@ -1,19 +1,21 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import type { Tool } from '@modelcontextprotocol/sdk/types'
-import type { MCPServer, MCPServers, Transports } from './types.js'
+import type { MCPServerConfig } from './types.js'
 
 export class MCPClient {
   private _client: Client
-  private _clientName: string = 'mcp-client-study'
+  private _mcpServerConfig: MCPServerConfig
   private _version: string = '0.1.0'
-  private _transports: Transports = {}
+  private _transport: StdioClientTransport
   private _tools: Tool[] = []
   get tools() { return this._tools }
 
-  constructor() {
+  constructor(serverName: string, mcpServerConfig: MCPServerConfig) {
+    this._mcpServerConfig = mcpServerConfig
+    this._transport = new StdioClientTransport(this._mcpServerConfig)
     this._client = new Client({
-      name: this._clientName,
+      name: serverName,
       version: this._version
     }, {
       capabilities: {
@@ -24,17 +26,9 @@ export class MCPClient {
     })
   }
 
-  startMcpServers = async (mcpServers: MCPServers) => {
-    await Promise.all(Object.entries(mcpServers).map(this._startMcpServer))
-  }
-
-  private _startMcpServer = async ([mcpServerName, mcpServerConfig]: [string, MCPServer]) => {
-    // Start and connect to MCP server
-    const transport = new StdioClientTransport(mcpServerConfig)
-    this._transports[mcpServerName] = transport
-    await this._client.connect(transport)
-
+  startMcpServers = async () => {
     // Get and set tools from MCP server
+    await this._client.connect(this._transport)
     const listToolsResponse = await this._client.listTools()
     const newTools = listToolsResponse.tools
     this._tools.push(...newTools)
@@ -49,7 +43,7 @@ export class MCPClient {
   }
 
   dispose = async () => {
-    await Promise.all(Object.values(this._transports).map(transport => transport.close()))
+    this._transport.close()
     await this._client.close()
   }
 }
